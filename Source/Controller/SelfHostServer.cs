@@ -10,11 +10,12 @@ namespace HH.TiYu.Cloud.Controller
 {
     public class SelfHostServer
     {
-
+        //netsh http add urlacl url=http://120.77.11.122:9008/HHCloud/ user=Administrator
         public static void StartWebApiService()
         {
-            var uri = new Uri(@"http://localhost:9006/");
+            var uri = new Uri(@"http://120.77.11.122:9008/HHCloud/");
             HttpSelfHostConfiguration config = new HttpSelfHostConfiguration(uri);
+            var f = config.BaseAddress;
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
