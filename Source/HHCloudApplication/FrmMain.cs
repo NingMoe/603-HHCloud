@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HH.TiYu.Cloud.Controller;
 
 namespace HH.TiYu.Cloud.WinApp
 {
@@ -49,6 +50,8 @@ namespace HH.TiYu.Cloud.WinApp
                 Environment.Exit(0);
             }
         }
+
+
         #endregion
 
         #region 事件处理程序
@@ -56,6 +59,7 @@ namespace HH.TiYu.Cloud.WinApp
         {
             this.Text += string.Format(" [{0}]", Application.ProductVersion);
             DoLogIn();
+            SelfHostServer.StartWebApiService();
         }
         #endregion
     }

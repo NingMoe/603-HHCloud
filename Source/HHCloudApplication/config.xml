@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <configuration>
   <appSettings>
-    <add key="ConnectString" value="/NPxT?%5RU$0.\)&lt;UYz6a?Rx/~Po 5b?=Y?HOU7 -]&lt;{EzDR*6Q^~Yud#?~x9,*%y+et^]MmS,c^Lr|s?JFrkBFA?;ex8Cv&gt;N?^&amp;/8FH]aK :VHB0uw(|\cgs6USx]l=wR3xp]!&amp;/e|H^iJd&gt;" />
+    <add key="ConnectString" value="/NnGv?1tRn|cp\)?YHz?HYRx@$g$Jv&gt;iq 1vOU7 4dx{z2Dp_lhX^{F2L`V.*rr_^]}riFUc[A* ~[r9:}AoKyoDsXww8ww f:T#H}4_=V`(#Wc*2^q_H,;`_YIScf)Rbbeoc*Z#G!Hae2$bn&lt;g !}|[Hb!0zl8=cC[$B1N;9v!JG$4?T{q6=U*dc" />
     <add key="DatabaseNeedUpgrade" value="True" />
     <add key="RememberLogID" value="True" />
-	<add key="HHCloud" value="http://localhost:8080"/>
+    <add key="HHCloud" value="http://localhost:8080" />
   </appSettings>
 </configuration>
