@@ -17,6 +17,9 @@ namespace HH.TiYu.Cloud.WebApi.Host
                 defaults: new { id = RouteParameter.Optional }
                 );
             config.EnsureInitialized();
+
+            
+
         }
     }
 }

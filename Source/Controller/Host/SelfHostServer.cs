@@ -15,7 +15,8 @@ namespace HH.TiYu.Cloud.WebApi.Host
         
         public static bool StartWebApiService()
         {
-            try {
+            try
+            {
                 var uri = new Uri(@"http://localhost:80/HHCloud/");
                 HttpSelfHostConfiguration config = new HttpSelfHostConfiguration(uri);
                 WebApiConfig.Config(config);

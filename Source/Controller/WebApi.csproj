@@ -67,6 +67,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Host\SelfHostServer.cs" />
     <Compile Include="Controller\ValueController.cs" />
+    <Compile Include="WXManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

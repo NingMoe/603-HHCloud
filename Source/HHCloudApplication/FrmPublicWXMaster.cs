@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.Security;
 using HH.TiYu.Cloud.BLL;
+using HH.TiYu.Cloud.WebApi;
 using LJH.GeneralLibrary.Core.DAL;
 
 namespace HH.TiYu.Cloud.WinApp
@@ -30,12 +31,12 @@ namespace HH.TiYu.Cloud.WinApp
 
         protected override bool DeletingItem(object item)
         {
-            RoleBLL bll = new RoleBLL(AppSettings.Current.ConnStr);
-            Role info = (Role)item;
+            PublicWXBLL bll = new PublicWXBLL(AppSettings.Current.ConnStr);
+            PublicWX info = item as PublicWX;
             CommandResult result = bll.Delete(info);
             if (result.Result == ResultCode.Successful)
             {
-                //这里要从管理集合中删除
+                if (WXManager.Current != null) WXManager.Current.Remove(info);
             }
             else
             {

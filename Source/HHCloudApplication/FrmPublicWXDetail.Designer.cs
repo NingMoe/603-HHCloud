@@ -58,26 +58,26 @@
             // 
             // btnClose
             // 
-            this.btnClose.Location = new System.Drawing.Point(499, 277);
+            this.btnClose.Location = new System.Drawing.Point(542, 318);
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(390, 277);
+            this.btnOk.Location = new System.Drawing.Point(433, 318);
             // 
             // txtEncodingAESKey
             // 
             this.txtEncodingAESKey.ImeMode = System.Windows.Forms.ImeMode.On;
-            this.txtEncodingAESKey.Location = new System.Drawing.Point(372, 98);
-            this.txtEncodingAESKey.MaxLength = 20;
+            this.txtEncodingAESKey.Location = new System.Drawing.Point(117, 135);
+            this.txtEncodingAESKey.MaxLength = 100;
             this.txtEncodingAESKey.Name = "txtEncodingAESKey";
-            this.txtEncodingAESKey.Size = new System.Drawing.Size(196, 21);
+            this.txtEncodingAESKey.Size = new System.Drawing.Size(500, 21);
             this.txtEncodingAESKey.TabIndex = 105;
             // 
             // txtToken
             // 
             this.txtToken.ImeMode = System.Windows.Forms.ImeMode.On;
             this.txtToken.Location = new System.Drawing.Point(61, 98);
-            this.txtToken.MaxLength = 20;
+            this.txtToken.MaxLength = 100;
             this.txtToken.Name = "txtToken";
             this.txtToken.Size = new System.Drawing.Size(196, 21);
             this.txtToken.TabIndex = 104;
@@ -86,16 +86,16 @@
             // 
             this.txtAppSecret.ImeMode = System.Windows.Forms.ImeMode.On;
             this.txtAppSecret.Location = new System.Drawing.Point(372, 61);
-            this.txtAppSecret.MaxLength = 20;
+            this.txtAppSecret.MaxLength = 100;
             this.txtAppSecret.Name = "txtAppSecret";
-            this.txtAppSecret.Size = new System.Drawing.Size(196, 21);
+            this.txtAppSecret.Size = new System.Drawing.Size(245, 21);
             this.txtAppSecret.TabIndex = 103;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
             this.label10.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label10.Location = new System.Drawing.Point(278, 102);
+            this.label10.Location = new System.Drawing.Point(23, 139);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(89, 12);
             this.label10.TabIndex = 100;
@@ -127,7 +127,7 @@
             // 
             this.txtID.ImeMode = System.Windows.Forms.ImeMode.On;
             this.txtID.Location = new System.Drawing.Point(61, 24);
-            this.txtID.MaxLength = 20;
+            this.txtID.MaxLength = 100;
             this.txtID.Name = "txtID";
             this.txtID.Size = new System.Drawing.Size(196, 21);
             this.txtID.TabIndex = 85;
@@ -147,7 +147,7 @@
             // 
             this.txtAppID.ImeMode = System.Windows.Forms.ImeMode.On;
             this.txtAppID.Location = new System.Drawing.Point(61, 61);
-            this.txtAppID.MaxLength = 20;
+            this.txtAppID.MaxLength = 100;
             this.txtAppID.Name = "txtAppID";
             this.txtAppID.Size = new System.Drawing.Size(196, 21);
             this.txtAppID.TabIndex = 87;
@@ -166,9 +166,9 @@
             // 
             this.txtName.ImeMode = System.Windows.Forms.ImeMode.On;
             this.txtName.Location = new System.Drawing.Point(372, 24);
-            this.txtName.MaxLength = 20;
+            this.txtName.MaxLength = 100;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(196, 21);
+            this.txtName.Size = new System.Drawing.Size(245, 21);
             this.txtName.TabIndex = 86;
             // 
             // label1
@@ -194,9 +194,9 @@
             this.gpDB.Controls.Add(this.label9);
             this.gpDB.Controls.Add(this.rdUser);
             this.gpDB.Controls.Add(this.rdSystem);
-            this.gpDB.Location = new System.Drawing.Point(24, 142);
+            this.gpDB.Location = new System.Drawing.Point(24, 177);
             this.gpDB.Name = "gpDB";
-            this.gpDB.Size = new System.Drawing.Size(550, 111);
+            this.gpDB.Size = new System.Drawing.Size(593, 111);
             this.gpDB.TabIndex = 106;
             this.gpDB.TabStop = false;
             this.gpDB.Text = "学生成绩查询数据库";
@@ -300,7 +300,7 @@
             this.label11.Font = new System.Drawing.Font("SimSun", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
             this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.label11.Location = new System.Drawing.Point(22, 277);
+            this.label11.Location = new System.Drawing.Point(22, 312);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(337, 14);
             this.label11.TabIndex = 107;
@@ -311,7 +311,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(586, 312);
+            this.ClientSize = new System.Drawing.Size(629, 353);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.gpDB);
             this.Controls.Add(this.txtEncodingAESKey);

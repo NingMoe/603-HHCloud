@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HH.TiYu.Cloud.Model;
+using HH.TiYu.Cloud.WebApi;
 using HH.TiYu.Cloud.WebApi.Host;
 
 namespace HH.TiYu.Cloud.WinApp
@@ -59,6 +61,8 @@ namespace HH.TiYu.Cloud.WinApp
         {
             this.Text += string.Format(" [{0}]", Application.ProductVersion);
             DoLogIn();
+            WXManager.Current = new WXManager(AppSettings.Current.ConnStr);
+            WXManager.Current.Init();
             SelfHostServer.StartWebApiService();
         }
         #endregion

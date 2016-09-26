@@ -13,11 +13,11 @@ namespace HH.TiYu.Cloud.WebApi.Controller
         /// 微信开发 验证服务器地址的有效性
         /// </summary>
         [HttpGet]
-        public HttpResponseMessage WeChatServiceValidation(string id, string signature, string timestamp, string nonce, string echostr)
+        public IHttpActionResult WeChatServiceValidation(string id, string signature, string timestamp, string nonce, string echostr)
         {
-            var response = Request.CreateResponse();
-            response.Content = new StringContent(echostr);
-            return response;
+            var wx = WXManager.Current[id];
+            if (wx != null && wx.GetSigniture(timestamp, nonce) == signature) return Ok<string>(echostr);
+            return BadRequest();
         }
 
         public HttpResponseMessage Post(HttpRequestMessage request)

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace HH.TiYu.Cloud.Model
 {
@@ -39,6 +37,27 @@ namespace HH.TiYu.Cloud.Model
         public DateTime? AccessTokenTime { get; set; }
 
         public DateTime? AccessTokenExpireTime { get; set; }
+        #endregion
+
+        #region 公共方法
+        /// <summary>
+        /// 根据微信签名算法计算签名
+        /// </summary>
+        public string GetSigniture(string timestamp, string nonce)
+        {
+            var array = new List<string> { this.Token, timestamp, nonce };
+            array.Sort();
+            var temp = string.Join(string.Empty, array);
+            var data = System.Text.Encoding.ASCII.GetBytes(temp);
+            HashAlgorithm sha = new SHA1CryptoServiceProvider();
+            var bytes = sha.ComputeHash(data);
+            return System.Text.Encoding.ASCII.GetString(bytes);
+        }
+
+        public PublicWX Clone()
+        {
+            return this.MemberwiseClone() as PublicWX;
+        }
         #endregion
     }
 }

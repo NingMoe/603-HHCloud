@@ -70,7 +70,7 @@
             this.RoleView.RowHeadersVisible = false;
             this.RoleView.RowTemplate.Height = 23;
             this.RoleView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.RoleView.Size = new System.Drawing.Size(1058, 378);
+            this.RoleView.Size = new System.Drawing.Size(1113, 393);
             this.RoleView.TabIndex = 60;
             // 
             // contextMenuStrip1
@@ -112,74 +112,76 @@
             // 
             this.colID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colID.HeaderText = "ID";
+            this.colID.MinimumWidth = 100;
             this.colID.Name = "colID";
             this.colID.ReadOnly = true;
-            this.colID.Width = 42;
             // 
             // colName
             // 
             this.colName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colName.DataPropertyName = "RoleName";
             this.colName.HeaderText = "名称";
+            this.colName.MinimumWidth = 100;
             this.colName.Name = "colName";
             this.colName.ReadOnly = true;
-            this.colName.Width = 54;
             // 
             // colAppID
             // 
             this.colAppID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colAppID.HeaderText = "AppID";
+            this.colAppID.MinimumWidth = 100;
             this.colAppID.Name = "colAppID";
             this.colAppID.ReadOnly = true;
-            this.colAppID.Width = 60;
             // 
             // colAppSecret
             // 
             this.colAppSecret.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colAppSecret.HeaderText = "AppSecret";
+            this.colAppSecret.MinimumWidth = 100;
             this.colAppSecret.Name = "colAppSecret";
             this.colAppSecret.ReadOnly = true;
-            this.colAppSecret.Width = 84;
             // 
             // colToken
             // 
             this.colToken.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colToken.HeaderText = "Token";
+            this.colToken.MinimumWidth = 100;
             this.colToken.Name = "colToken";
             this.colToken.ReadOnly = true;
-            this.colToken.Width = 60;
             // 
             // colEncodingAESKey
             // 
             this.colEncodingAESKey.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colEncodingAESKey.HeaderText = "EncodingAESKey";
+            this.colEncodingAESKey.MinimumWidth = 150;
             this.colEncodingAESKey.Name = "colEncodingAESKey";
             this.colEncodingAESKey.ReadOnly = true;
-            this.colEncodingAESKey.Width = 114;
+            this.colEncodingAESKey.Width = 150;
             // 
             // colAccessToken
             // 
             this.colAccessToken.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
             this.colAccessToken.HeaderText = "AccessToken";
+            this.colAccessToken.MinimumWidth = 250;
             this.colAccessToken.Name = "colAccessToken";
             this.colAccessToken.ReadOnly = true;
-            this.colAccessToken.Width = 96;
+            this.colAccessToken.Width = 250;
             // 
             // colAccessTokenExpireTime
             // 
             dataGridViewCellStyle1.Format = "yyyy-MM-dd HH:mm:ss";
             this.colAccessTokenExpireTime.DefaultCellStyle = dataGridViewCellStyle1;
-            this.colAccessTokenExpireTime.FillWeight = 130F;
+            this.colAccessTokenExpireTime.FillWeight = 200F;
             this.colAccessTokenExpireTime.HeaderText = "AccessToken过期";
             this.colAccessTokenExpireTime.Name = "colAccessTokenExpireTime";
             this.colAccessTokenExpireTime.ReadOnly = true;
-            this.colAccessTokenExpireTime.Width = 99;
+            this.colAccessTokenExpireTime.Width = 200;
             // 
             // FrmPublicWXMaster
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1058, 400);
+            this.ClientSize = new System.Drawing.Size(1113, 415);
             this.Controls.Add(this.RoleView);
             this.Name = "FrmPublicWXMaster";
             this.Text = "微信公众号管理";

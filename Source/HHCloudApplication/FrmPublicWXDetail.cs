@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.Security;
 using HH.TiYu.Cloud.BLL;
+using HH.TiYu.Cloud.WebApi;
 using LJH.GeneralLibrary.Core.DAL;
 
 namespace HH.TiYu.Cloud.WinApp
@@ -84,13 +85,13 @@ namespace HH.TiYu.Cloud.WinApp
                 txtAppID.Focus();
                 return false;
             }
-            if (!string.IsNullOrEmpty(txtAppSecret.Text))
+            if (string.IsNullOrEmpty(txtAppSecret.Text))
             {
                 MessageBox.Show("AppSecret不能为空");
                 txtAppSecret.Focus();
                 return false;
             }
-            if (!string.IsNullOrEmpty(txtToken.Text))
+            if (string.IsNullOrEmpty(txtToken.Text))
             {
                 MessageBox.Show("Token不能为空");
                 txtToken.Focus();
@@ -127,6 +128,12 @@ namespace HH.TiYu.Cloud.WinApp
                 info.ID = txtID.Text;
             }
             info.Name = txtName.Text;
+            if (info.AppID != txtAppID.Text || info.AppSecret != txtAppSecret.Text) //如果重新设置了APPID或APPSECRET
+            {
+                info.AccessToken = null;
+                info.AccessTokenTime = null;
+                info.AccessTokenExpireTime = null;
+            }
             info.AppID = txtAppID.Text;
             info.AppSecret = txtAppSecret.Text;
             info.Token = txtToken.Text;
@@ -141,7 +148,7 @@ namespace HH.TiYu.Cloud.WinApp
             CommandResult ret = (new PublicWXBLL(AppSettings.Current.ConnStr)).Add(wx);
             if (ret.Result == ResultCode.Successful)
             {
-                //这里要在微信管理集合中增加进来
+                if (WXManager.Current != null) WXManager.Current.Add(wx);
             }
             return ret;
         }
@@ -152,7 +159,7 @@ namespace HH.TiYu.Cloud.WinApp
             CommandResult ret = (new PublicWXBLL(AppSettings.Current.ConnStr)).Update(wx);
             if (ret.Result == ResultCode.Successful)
             {
-                //这里要在微信管理集合中增加进来
+                if (WXManager.Current != null) WXManager.Current.Add(wx);
             }
             return ret;
         }

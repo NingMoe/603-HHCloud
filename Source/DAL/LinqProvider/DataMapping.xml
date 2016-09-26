@@ -24,4 +24,25 @@
       <Column Name="Memo" Member="Memo" DbType="nvarchar(200)" UpdateCheck="Never"/>
     </Type>
   </Table>
+  <Table Name="PublicWX" Member="HH.TiYu.Cloud.Model.PublicWX">
+      <Type Name="HH.TiYu.Cloud.Model.PublicWX">
+        <Column Name="ID" Member="ID"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" IsPrimaryKey="true" />
+        <Column Name="Name" Member="Name"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="AppID" Member="AppID"  DbType="nvarchar(100) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="AppSecret" Member="AppSecret"  DbType="nvarchar(100) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="Token" Member="Token"  DbType="nvarchar(100) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="EncodingAESKey" Member="EncodingAESKey"  DbType="nvarchar(100)" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="DBConnect" Member="DBConnect"  DbType="nvarchar(200)" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="AccessToken" Member="AccessToken"  DbType="nvarchar(200)" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="AccessTokenTime" Member="AccessTokenTime"  DbType="datetime NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="AccessTokenExpireTime" Member="AccessTokenExpireTime"  DbType="datetime NULL" CanBeNull="false" UpdateCheck="Never"/>
+      </Type>
+  </Table>
+  <Table Name="StudentWX" Member="HH.TiYu.Cloud.Model.StudentWX">
+      <Type Name="HH.TiYu.Cloud.Model.StudentWX">
+        <Column Name="ID" Member="ID"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" IsPrimaryKey="true" />
+        <Column Name="PublicWX" Member="PublicWX"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="StudentID" Member="StudentID"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+      </Type>
+  </Table>
 </Database>
