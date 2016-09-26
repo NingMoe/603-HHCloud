@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using HH.TiYu.Cloud.Controller;
+using HH.TiYu.Cloud.WebApi.Host;
 
 namespace HH.TiYu.Cloud.WinApp
 {

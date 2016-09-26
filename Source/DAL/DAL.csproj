@@ -51,9 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LinqProvider\OperatorProvider.cs" />
+    <Compile Include="LinqProvider\PublicWXProvider.cs" />
     <Compile Include="LinqProvider\RoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactory.cs" />
+    <Compile Include="StudentWXProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

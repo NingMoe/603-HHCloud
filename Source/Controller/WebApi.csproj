@@ -7,8 +7,8 @@
     <ProjectGuid>{3E9E6A92-FA12-4B36-A3BA-7559F1CCB32A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HH.TiYu.Cloud.Controller</RootNamespace>
-    <AssemblyName>HH.TiYu.Cloud.Controller</AssemblyName>
+    <RootNamespace>HH.TiYu.Cloud.WebApi</RootNamespace>
+    <AssemblyName>HH.TiYu.Cloud.WebApi</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LJH.GeneralLibrary">
+      <HintPath>..\Reference\LJH.GeneralLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -56,12 +59,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Host\WebApiConfig.cs" />
+    <Compile Include="Controller\ScoresController.cs" />
+    <Compile Include="Controller\StudentsController.cs" />
+    <Compile Include="Controller\WeChatController.cs" />
+    <Compile Include="Filter\HuihaiAuthenticationFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelfHostServer.cs" />
-    <Compile Include="ValueController.cs" />
+    <Compile Include="Host\SelfHostServer.cs" />
+    <Compile Include="Controller\ValueController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MessageHandler\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{049ed2f8-c0c7-4e1d-846e-532fa5ef6ffc}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{85ae211f-e747-4deb-bedd-09f5ef21512c}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

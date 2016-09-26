@@ -46,7 +46,9 @@
     <Compile Include="BLLBase.cs" />
     <Compile Include="OperatorBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicWXBLL.cs" />
     <Compile Include="RoleBLL.cs" />
+    <Compile Include="StudentWXBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

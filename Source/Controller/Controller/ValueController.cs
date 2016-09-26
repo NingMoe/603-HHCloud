@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace HH.TiYu.Cloud.Controller
+namespace HH.TiYu.Cloud.WebApi.Controller
 {
     public class ValueController : ApiController
     {

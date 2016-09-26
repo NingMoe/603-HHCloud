@@ -82,6 +82,12 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmPublicWXMaster.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmPublicWXMaster.Designer.cs">
+      <DependentUpon>FrmPublicWXMaster.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmLogin.resx">
@@ -89,6 +95,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmPublicWXMaster.resx">
+      <DependentUpon>FrmPublicWXMaster.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -119,9 +128,9 @@
       <Project>{049ed2f8-c0c7-4e1d-846e-532fa5ef6ffc}</Project>
       <Name>BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controller\Controller.csproj">
+    <ProjectReference Include="..\Controller\WebApi.csproj">
       <Project>{3e9e6a92-fa12-4b36-a3ba-7559f1ccb32a}</Project>
-      <Name>Controller</Name>
+      <Name>WebApi</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{1b2a6f2c-7991-41c9-bba4-e2d8bc5f8ba1}</Project>
@@ -136,6 +145,9 @@
     <None Include="config.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\wx.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
