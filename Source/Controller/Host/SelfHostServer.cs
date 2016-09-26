@@ -13,13 +13,21 @@ namespace HH.TiYu.Cloud.WebApi.Host
     public class SelfHostServer
     {
         
-        public static void StartWebApiService()
+        public static bool StartWebApiService()
         {
-            var uri = new Uri(@"http://120.77.11.122:9008/HHCloud/");
-            HttpSelfHostConfiguration config = new HttpSelfHostConfiguration(uri);
-            WebApiConfig.Config(config);
-            var host = new HttpSelfHostServer(config);
-            host.OpenAsync().Wait();
+            try {
+                var uri = new Uri(@"http://localhost:80/HHCloud/");
+                HttpSelfHostConfiguration config = new HttpSelfHostConfiguration(uri);
+                WebApiConfig.Config(config);
+                var host = new HttpSelfHostServer(config);
+                host.OpenAsync().Wait();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                LJH.GeneralLibrary.ExceptionHandling.ExceptionPolicy.HandleException(ex);
+            }
+            return false;
         }
     }
 }

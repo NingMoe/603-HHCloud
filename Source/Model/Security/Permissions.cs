@@ -18,45 +18,20 @@ namespace HH.TiYu.Cloud.Model.Security
         [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit, Description = "系统选项")]
         SystemOptions = 1,
         /// <summary>
-        /// 区域资料
+        /// 微信公众号
         /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export, Description = "区域信息")]
-        Division,
-        /// <summary>
-        /// 学校资料
-        /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export | PermissionActions.Import, Description = "学校信息")]
-        Facility,
+        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export, Description = "微信公众号")]
+        PublicWX,
         /// <summary>
         /// 学生资料
         /// </summary>
         [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export | PermissionActions.Import, Description = "学生信息")]
         Student,
         /// <summary>
-        /// 测试项目
-        /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export, Description = "测试项目")]
-        PhysicalItem,
-        /// <summary>
         /// 学生成绩
         /// </summary>
         [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export | PermissionActions.Import | PermissionActions.Collect | PermissionActions.Print, Description = "学生成绩")]
         StudentScore,
-        /// <summary>
-        /// 考试科目选择
-        /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit, Description = "考试科目选择")]
-        ProjectPhysical,
-        /// <summary>
-        /// 评分标准
-        /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Edit | PermissionActions.Export | PermissionActions.Import, Description = "评分标准")]
-        Standard,
-        /// <summary>
-        /// 统计报表
-        /// </summary>
-        [OperatorRight(Catalog = "基本资料", Actions = PermissionActions.Read | PermissionActions.Export, Description = "统计报表")]
-        Statistics,
         /// <summary>
         /// 操作日志
         /// </summary>

@@ -62,5 +62,12 @@ namespace HH.TiYu.Cloud.WinApp
             SelfHostServer.StartWebApiService();
         }
         #endregion
+
+        private void btnPublicWX_Click(object sender, EventArgs e)
+        {
+            FrmPublicWXMaster frm = new FrmPublicWXMaster();
+            frm.StartPosition = FormStartPosition.CenterParent;
+            frm.ShowDialog();
+        }
     }
 }
