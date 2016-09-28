@@ -51,7 +51,8 @@ namespace HH.TiYu.Cloud.Model
             var data = System.Text.Encoding.ASCII.GetBytes(temp);
             HashAlgorithm sha = new SHA1CryptoServiceProvider();
             var bytes = sha.ComputeHash(data);
-            return System.Text.Encoding.ASCII.GetString(bytes);
+            var ret = LJH.GeneralLibrary.HexStringConverter.HexToString(bytes, string.Empty);
+            return ret;
         }
 
         public PublicWX Clone()
