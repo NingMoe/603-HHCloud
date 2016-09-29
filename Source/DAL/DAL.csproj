@@ -55,7 +55,7 @@
     <Compile Include="LinqProvider\RoleProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactory.cs" />
-    <Compile Include="StudentWXProvider.cs" />
+    <Compile Include="LinqProvider\WXBindingProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">
