@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HH.TiYu.Cloud.WebApi.WX.Response;
 using HH.TiYu.Cloud.Model;
+using HH.TiYu.Cloud.Model.SearchCondition;
 using HH.TiYu.Cloud.BLL;
 using LJH.GeneralLibrary.Core.DAL;
 
@@ -25,6 +26,7 @@ namespace HH.TiYu.Cloud.WebApi.WX
         private string _regStudentID = "@@";
         private string[] _unregStudentID = new string[] { "@!", "@！" };
         private string[] _queryregStudentID = new string[] { "@?", "@？" };
+        private string[] _queryScore = new string[] { "??", "？？" };
 
         #region 私有方法 
         private long GetCreateTime(DateTime dt)
@@ -32,7 +34,7 @@ namespace HH.TiYu.Cloud.WebApi.WX
             return (long)(new TimeSpan(dt.Ticks - new DateTime(1970, 1, 1, 8, 0, 0).Ticks).TotalSeconds);
         }
 
-        private WXResponseMsgBase HandleTextMsg(WXRequestMsg msg)
+        private WXResponseMsgBase HandleTextMsg(string publicWX, WXRequestMsg msg)
         {
             string response = _DefaultResponse;
             if (msg.Content.IndexOf(_regStudentID) == 0 && msg.Content.Length > _regStudentID.Length)
@@ -53,6 +55,35 @@ namespace HH.TiYu.Cloud.WebApi.WX
                 var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
                 if (string.IsNullOrEmpty(sid)) response = "没有查询到绑定学号，请确定是否已经绑定过学号";
                 else response = string.Format("你绑定的学号是 {0}", sid);
+            }
+            else if (_queryScore.Contains(msg.Content))
+            {
+                var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+                if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，请先绑定学号";
+                var wx = WXManager.Current[publicWX];
+                if (wx == null) response = "系统没有提供此微信公众号服务";
+                else
+                {
+                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
+                    if (s == null) response = "没有找到学生信息";
+                    else
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine(string.Format("学号：{0}", s.ID));
+                        sb.AppendLine(string.Format("姓名：{0}", s.Name));
+                        if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
+                        if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
+                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
+                        var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
+                        scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
+                        foreach (var score in scores)
+                        {
+                            if (string.IsNullOrEmpty(score.Result)) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                            else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result, score.Rank));
+                        }
+                        response = sb.ToString();
+                    }
+                }
             }
             return new WXTextResponseMsg()
             {
@@ -79,11 +110,11 @@ namespace HH.TiYu.Cloud.WebApi.WX
         #endregion
 
         #region 公共方法 
-        public WXResponseMsgBase HandleMsg(WXRequestMsg msg)
+        public WXResponseMsgBase HandleMsg(string publicWX, WXRequestMsg msg)
         {
             if (msg.MsgType == MsgType.Text)
             {
-                return HandleTextMsg(msg);
+                return HandleTextMsg(publicWX, msg);
             }
             else if (msg.MsgType == MsgType.Event)
             {

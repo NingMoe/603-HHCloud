@@ -18,13 +18,6 @@ namespace HH.TiYu.Cloud.BLL
         }
         #endregion
 
-        #region 重写基类方法
-        public override CommandResult Delete(PublicWX info)
-        {
-            return base.Delete(info);
-        }
-        #endregion
-
         #region 公共方法
         public CommandResult UpdateAccessToken(PublicWX wx,string act, DateTime actTime, DateTime actExpireTime)
         {

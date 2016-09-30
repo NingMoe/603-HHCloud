@@ -60,7 +60,7 @@ namespace HH.TiYu.Cloud.WebApi.WX
                 if (wx == null || wx.GetSigniture(timestamp, nonce).ToUpper() != signature.ToUpper()) return Request.CreateResponse(HttpStatusCode.BadRequest);
                 if (msg != null)
                 {
-                    var ret = new WXRequestHandler().HandleMsg(msg);
+                    var ret = new WXRequestHandler().HandleMsg(id, msg);
                     if (ret != null)
                     {
                         var response = Request.CreateResponse();
