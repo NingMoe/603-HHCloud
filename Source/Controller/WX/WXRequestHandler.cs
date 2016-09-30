@@ -59,29 +59,32 @@ namespace HH.TiYu.Cloud.WebApi.WX
             else if (_queryScore.Contains(msg.Content))
             {
                 var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
-                if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，请先绑定学号";
-                var wx = WXManager.Current[publicWX];
-                if (wx == null) response = "系统没有提供此微信公众号服务";
+                if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，\n绑定学号请发送  \"@@\" + 学号\n如  @@12345678 \n";
                 else
                 {
-                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
-                    if (s == null) response = "没有找到学生信息";
+                    var wx = WXManager.Current[publicWX];
+                    if (wx == null) response = "系统没有提供此微信公众号服务";
                     else
                     {
-                        StringBuilder sb = new StringBuilder();
-                        sb.AppendLine(string.Format("学号：{0}", s.ID));
-                        sb.AppendLine(string.Format("姓名：{0}", s.Name));
-                        if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
-                        if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
-                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
-                        var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
-                        scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
-                        foreach (var score in scores)
+                        var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
+                        if (s == null) response = "没有找到学生信息";
+                        else
                         {
-                            if (string.IsNullOrEmpty(score.Result)) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
-                            else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result, score.Rank));
+                            StringBuilder sb = new StringBuilder();
+                            sb.AppendLine(string.Format("学号：{0}", s.ID));
+                            sb.AppendLine(string.Format("姓名：{0}", s.Name));
+                            if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
+                            if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
+                            var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
+                            var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
+                            scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
+                            foreach (var score in scores)
+                            {
+                                if (string.IsNullOrEmpty(score.Result)) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                                else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result, score.Rank));
+                            }
+                            response = sb.ToString();
                         }
-                        response = sb.ToString();
                     }
                 }
             }
