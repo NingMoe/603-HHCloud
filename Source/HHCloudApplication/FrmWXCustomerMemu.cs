@@ -23,11 +23,36 @@ namespace HH.TiYu.Cloud.WinApp
 
         private async void btnGet_Click(object sender, EventArgs e)
         {
-            if (PublicWX == null) return;
-            string ret = await new WXClient().GetMenu(PublicWX);
-            if (!string.IsNullOrEmpty(ret))
+            try
             {
-                this.Invoke((Action)(() => { this.txtMenu.Text = ret; }));
+                if (PublicWX == null) return;
+                string ret = await new WXClient().GetMenu(PublicWX);
+                if (!string.IsNullOrEmpty(ret))
+                {
+                    this.Invoke((Action)(() => { this.txtMenu.Text = ret; }));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private async void btnSet_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (PublicWX == null) return;
+                string menu = txtMenu.Text;
+                string ret = await new WXClient().SetMenu(PublicWX, menu);
+                if (!string.IsNullOrEmpty(ret))
+                {
+                    this.Invoke((Action)(() => { MessageBox.Show(ret); }));
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

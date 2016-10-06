@@ -52,6 +52,23 @@ namespace HH.TiYu.Cloud.WX
                 return null;
             }
         }
+
+        public async Task<string> SetMenu(PublicWX wx, string menu)
+        {
+            if (string.IsNullOrEmpty(wx.AccessToken)) throw new InvalidOperationException("公众号还没有获取Access_Key");
+            using (var client = HttpClientFactory.Create())
+            {
+                string uri = string.Format("https://api.weixin.qq.com/cgi-bin/menu/create?access_token={0}", wx.AccessToken);
+                var content = new StringContent(menu);
+                HttpResponseMessage response = await client.PostAsync(uri, content);
+                if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    var ret = await response.Content.ReadAsStringAsync();
+                    return ret;
+                }
+                return null;
+            }
+        }
     }
 
     /// <summary>

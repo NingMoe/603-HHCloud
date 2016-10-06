@@ -64,6 +64,7 @@
             this.btnSet.TabIndex = 2;
             this.btnSet.Text = "设置";
             this.btnSet.UseVisualStyleBackColor = true;
+            this.btnSet.Click += new System.EventHandler(this.btnSet_Click);
             // 
             // FrmWXCustomerMemu
             // 

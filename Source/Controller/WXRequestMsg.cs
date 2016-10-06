@@ -57,6 +57,8 @@ namespace HH.TiYu.Cloud.WX
         /// 获取或设置具体的事件类型
         /// </summary>
         public string Event { get; set; }
+
+        public string EventKey { get; set; }
         #endregion
 
         #region 位置消息的属性
