@@ -11,7 +11,7 @@ using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.Security;
 using HH.TiYu.Cloud.BLL;
-using HH.TiYu.Cloud.WebApi;
+using HH.TiYu.Cloud.WX;
 using LJH.GeneralLibrary.Core.DAL;
 
 namespace HH.TiYu.Cloud.WinApp
@@ -83,5 +83,16 @@ namespace HH.TiYu.Cloud.WinApp
             cMnu_Export.Enabled = Operator.Current.Permit(Permission.PublicWX, PermissionActions.Export);
         }
         #endregion
+
+        private void 自定义菜单ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.RoleView.SelectedRows.Count == 1)
+            {
+                FrmWXCustomerMemu frm = new FrmWXCustomerMemu();
+                frm.StartPosition = FormStartPosition.CenterParent;
+                frm.PublicWX = this.RoleView.SelectedRows[0].Tag as PublicWX;
+                frm.ShowDialog();
+            }
+        }
     }
 }

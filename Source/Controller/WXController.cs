@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web.Http;
-using HH.TiYu.Cloud.WebApi.WX.Response;
+using HH.TiYu.Cloud.WX.Response;
 
-namespace HH.TiYu.Cloud.WebApi.WX
+namespace HH.TiYu.Cloud.WX
 {
     public class WXController : ApiController
     {

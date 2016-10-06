@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 
-namespace HH.TiYu.Cloud.WebApi.WX.Response
+namespace HH.TiYu.Cloud.WX.Response
 {
     public class WXTextResponseMsg : WXResponseMsgBase
     {

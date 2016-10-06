@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HH.TiYu.Cloud.WebApi.WX
+namespace HH.TiYu.Cloud.WX
 {
     public  class WXEventType
     {

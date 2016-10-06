@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 
-namespace HH.TiYu.Cloud.WebApi.WX
+namespace HH.TiYu.Cloud.WX
 {
     /// <summary>
     /// 表示微信发过来的消息

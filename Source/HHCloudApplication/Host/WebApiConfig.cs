@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 
-namespace HH.TiYu.Cloud.WebApi.Host
+namespace HH.TiYu.Cloud.WinApp.Host
 {
     public class WebApiConfig
     {
@@ -17,7 +17,7 @@ namespace HH.TiYu.Cloud.WebApi.Host
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "V1/{controller}/{id}",
+                routeTemplate: "{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
                 );
             config.EnsureInitialized();

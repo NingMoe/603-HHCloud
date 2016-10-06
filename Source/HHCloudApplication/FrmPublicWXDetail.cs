@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.Security;
 using HH.TiYu.Cloud.BLL;
-using HH.TiYu.Cloud.WebApi;
+using HH.TiYu.Cloud.WX;
 using LJH.GeneralLibrary.Core.DAL;
 
 namespace HH.TiYu.Cloud.WinApp

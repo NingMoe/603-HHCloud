@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HH.TiYu.Cloud.WebApi.WX.Response
+namespace HH.TiYu.Cloud.WX.Response
 {
     /// <summary>
     /// 表示微信回复消息基类

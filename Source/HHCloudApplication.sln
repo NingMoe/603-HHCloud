@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{049ED2F8-C0C7-4E1D-846E-532FA5EF6FFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "Controller\WebApi.csproj", "{3E9E6A92-FA12-4B36-A3BA-7559F1CCB32A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WX", "Controller\WX.csproj", "{3E9E6A92-FA12-4B36-A3BA-7559F1CCB32A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

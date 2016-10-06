@@ -29,13 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.RoleView = new System.Windows.Forms.DataGridView();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cMnu_Fresh = new System.Windows.Forms.ToolStripMenuItem();
-            this.cMnu_Add = new System.Windows.Forms.ToolStripMenuItem();
-            this.cMnu_Delete = new System.Windows.Forms.ToolStripMenuItem();
-            this.cMnu_Export = new System.Windows.Forms.ToolStripMenuItem();
             this.colID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAppID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +39,12 @@
             this.colEncodingAESKey = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccessToken = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colAccessTokenExpireTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cMnu_Fresh = new System.Windows.Forms.ToolStripMenuItem();
+            this.cMnu_Add = new System.Windows.Forms.ToolStripMenuItem();
+            this.cMnu_Delete = new System.Windows.Forms.ToolStripMenuItem();
+            this.cMnu_Export = new System.Windows.Forms.ToolStripMenuItem();
+            this.自定义菜单ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.RoleView)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -72,41 +73,6 @@
             this.RoleView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.RoleView.Size = new System.Drawing.Size(1113, 393);
             this.RoleView.TabIndex = 60;
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cMnu_Fresh,
-            this.cMnu_Add,
-            this.cMnu_Delete,
-            this.cMnu_Export});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(110, 92);
-            // 
-            // cMnu_Fresh
-            // 
-            this.cMnu_Fresh.Name = "cMnu_Fresh";
-            this.cMnu_Fresh.Size = new System.Drawing.Size(109, 22);
-            this.cMnu_Fresh.Text = "刷新";
-            // 
-            // cMnu_Add
-            // 
-            this.cMnu_Add.Name = "cMnu_Add";
-            this.cMnu_Add.Size = new System.Drawing.Size(109, 22);
-            this.cMnu_Add.Text = "新建";
-            // 
-            // cMnu_Delete
-            // 
-            this.cMnu_Delete.Name = "cMnu_Delete";
-            this.cMnu_Delete.Size = new System.Drawing.Size(109, 22);
-            this.cMnu_Delete.Text = "删除";
-            // 
-            // cMnu_Export
-            // 
-            this.cMnu_Export.Name = "cMnu_Export";
-            this.cMnu_Export.Size = new System.Drawing.Size(109, 22);
-            this.cMnu_Export.Text = "导出...";
-            this.cMnu_Export.Visible = false;
             // 
             // colID
             // 
@@ -169,13 +135,56 @@
             // 
             // colAccessTokenExpireTime
             // 
-            dataGridViewCellStyle1.Format = "yyyy-MM-dd HH:mm:ss";
-            this.colAccessTokenExpireTime.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Format = "yyyy-MM-dd HH:mm:ss";
+            this.colAccessTokenExpireTime.DefaultCellStyle = dataGridViewCellStyle2;
             this.colAccessTokenExpireTime.FillWeight = 200F;
             this.colAccessTokenExpireTime.HeaderText = "AccessToken过期";
             this.colAccessTokenExpireTime.Name = "colAccessTokenExpireTime";
             this.colAccessTokenExpireTime.ReadOnly = true;
             this.colAccessTokenExpireTime.Width = 200;
+            // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cMnu_Fresh,
+            this.cMnu_Add,
+            this.cMnu_Delete,
+            this.cMnu_Export,
+            this.自定义菜单ToolStripMenuItem});
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(153, 136);
+            // 
+            // cMnu_Fresh
+            // 
+            this.cMnu_Fresh.Name = "cMnu_Fresh";
+            this.cMnu_Fresh.Size = new System.Drawing.Size(158, 22);
+            this.cMnu_Fresh.Text = "刷新";
+            // 
+            // cMnu_Add
+            // 
+            this.cMnu_Add.Name = "cMnu_Add";
+            this.cMnu_Add.Size = new System.Drawing.Size(158, 22);
+            this.cMnu_Add.Text = "新建";
+            // 
+            // cMnu_Delete
+            // 
+            this.cMnu_Delete.Name = "cMnu_Delete";
+            this.cMnu_Delete.Size = new System.Drawing.Size(158, 22);
+            this.cMnu_Delete.Text = "删除";
+            // 
+            // cMnu_Export
+            // 
+            this.cMnu_Export.Name = "cMnu_Export";
+            this.cMnu_Export.Size = new System.Drawing.Size(158, 22);
+            this.cMnu_Export.Text = "导出...";
+            this.cMnu_Export.Visible = false;
+            // 
+            // 自定义菜单ToolStripMenuItem
+            // 
+            this.自定义菜单ToolStripMenuItem.Name = "自定义菜单ToolStripMenuItem";
+            this.自定义菜单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.自定义菜单ToolStripMenuItem.Text = "自定义菜单";
+            this.自定义菜单ToolStripMenuItem.Click += new System.EventHandler(this.自定义菜单ToolStripMenuItem_Click);
             // 
             // FrmPublicWXMaster
             // 
@@ -209,5 +218,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colEncodingAESKey;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAccessToken;
         private System.Windows.Forms.DataGridViewTextBoxColumn colAccessTokenExpireTime;
+        private System.Windows.Forms.ToolStripMenuItem 自定义菜单ToolStripMenuItem;
     }
 }

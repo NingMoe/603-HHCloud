@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
-using HH.TiYu.Cloud.WebApi;
-using HH.TiYu.Cloud.WebApi.Host;
+using HH.TiYu.Cloud.WX;
+using HH.TiYu.Cloud.WinApp.Host;
 
 namespace HH.TiYu.Cloud.WinApp
 {

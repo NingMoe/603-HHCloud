@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HH.TiYu.Cloud.WebApi.WX.Response;
+using HH.TiYu.Cloud.WX.Response;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.SearchCondition;
 using HH.TiYu.Cloud.BLL;
 using LJH.GeneralLibrary.Core.DAL;
 
-namespace HH.TiYu.Cloud.WebApi.WX
+namespace HH.TiYu.Cloud.WX
 {
     public class WXRequestHandler
     {
@@ -100,6 +100,8 @@ namespace HH.TiYu.Cloud.WebApi.WX
         private WXResponseMsgBase HandleSubscribeMsg(WXRequestMsg msg)
         {
             string response = "欢迎关注我们！ \n" +
+                              "相信汇海，相信专业！\n" +
+                              "\n" +
                               "接下来 \n" +
                               _DefaultResponse;
             return new WXTextResponseMsg()

@@ -94,6 +94,14 @@
     <Compile Include="FrmPublicWXMaster.Designer.cs">
       <DependentUpon>FrmPublicWXMaster.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmWXCustomerMemu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmWXCustomerMemu.Designer.cs">
+      <DependentUpon>FrmWXCustomerMemu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Host\SelfHostServer.cs" />
+    <Compile Include="Host\WebApiConfig.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmLogin.resx">
@@ -107,6 +115,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPublicWXMaster.resx">
       <DependentUpon>FrmPublicWXMaster.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmWXCustomerMemu.resx">
+      <DependentUpon>FrmWXCustomerMemu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -137,9 +148,9 @@
       <Project>{049ed2f8-c0c7-4e1d-846e-532fa5ef6ffc}</Project>
       <Name>BLL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Controller\WebApi.csproj">
+    <ProjectReference Include="..\Controller\WX.csproj">
       <Project>{3e9e6a92-fa12-4b36-a3ba-7559f1ccb32a}</Project>
-      <Name>WebApi</Name>
+      <Name>WX</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{1b2a6f2c-7991-41c9-bba4-e2d8bc5f8ba1}</Project>

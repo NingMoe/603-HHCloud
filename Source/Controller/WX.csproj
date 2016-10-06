@@ -7,8 +7,8 @@
     <ProjectGuid>{3E9E6A92-FA12-4B36-A3BA-7559F1CCB32A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HH.TiYu.Cloud.WebApi</RootNamespace>
-    <AssemblyName>HH.TiYu.Cloud.WebApi</AssemblyName>
+    <RootNamespace>HH.TiYu.Cloud.WX</RootNamespace>
+    <AssemblyName>HH.TiYu.Cloud.WX</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -60,26 +60,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Host\WebApiConfig.cs" />
-    <Compile Include="Controller\ScoresController.cs" />
-    <Compile Include="Controller\StudentsController.cs" />
-    <Compile Include="WX\MsgType.cs" />
-    <Compile Include="WX\Response\WXTextResponseMsg.cs" />
-    <Compile Include="WX\WXController.cs" />
-    <Compile Include="Filter\HuihaiAuthenticationFilter.cs" />
+    <Compile Include="MsgType.cs" />
+    <Compile Include="Response\WXTextResponseMsg.cs" />
+    <Compile Include="WXController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Host\SelfHostServer.cs" />
-    <Compile Include="Controller\ValueController.cs" />
+    <Compile Include="WXClient.cs" />
     <Compile Include="WXManager.cs" />
-    <Compile Include="WX\WXEventType.cs" />
-    <Compile Include="WX\WXRequestHandler.cs" />
-    <Compile Include="WX\WXRequestMsg.cs" />
-    <Compile Include="WX\Response\WXResponseMsgBase.cs" />
+    <Compile Include="WXEventType.cs" />
+    <Compile Include="WXRequestHandler.cs" />
+    <Compile Include="WXRequestMsg.cs" />
+    <Compile Include="Response\WXResponseMsgBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Filter\" />
     <Folder Include="MessageHandler\" />
   </ItemGroup>
   <ItemGroup>
