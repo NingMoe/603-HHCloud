@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using HH.TiYu.Cloud.Model;
+using HH.TiYu.Cloud.BLL;
 using HH.TiYu.Cloud.WX;
 using HH.TiYu.Cloud.WinApp.Host;
 
@@ -63,6 +64,7 @@ namespace HH.TiYu.Cloud.WinApp
             DoLogIn();
             WXManager.Current = new WXManager(AppSettings.Current.ConnStr);
             WXManager.Current.Init();
+            UserSettings.Current = SysParaSettingsBll.GetOrCreateSetting<UserSettings>(AppSettings.Current.ConnStr);
             SelfHostServer.StartWebApiService();
         }
         #endregion

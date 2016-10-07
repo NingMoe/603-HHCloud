@@ -60,6 +60,7 @@
     <Compile Include="Student.cs" />
     <Compile Include="StudentIDValidator.cs" />
     <Compile Include="StudentScore.cs" />
+    <Compile Include="UserSettings.cs" />
     <Compile Include="WXBinding.cs" />
     <Compile Include="SysparameterInfo.cs" />
   </ItemGroup>

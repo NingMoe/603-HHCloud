@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Jurassic">
+      <HintPath>..\Reference\Jurassic.dll</HintPath>
+    </Reference>
     <Reference Include="LJH.GeneralLibrary">
       <HintPath>..\Reference\LJH.GeneralLibrary.dll</HintPath>
     </Reference>

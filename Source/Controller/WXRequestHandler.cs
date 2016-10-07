@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using HH.TiYu.Cloud.WX.Response;
 using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.SearchCondition;
 using HH.TiYu.Cloud.BLL;
+using LJH.GeneralLibrary;
 using LJH.GeneralLibrary.Core.DAL;
 
 namespace HH.TiYu.Cloud.WX
@@ -29,7 +31,7 @@ namespace HH.TiYu.Cloud.WX
         private string[] _queryregStudentID = new string[] { "@?", "@？" };
         private string[] _queryScore = new string[] { "??", "？？" };
         private static ConcurrentDictionary<string, string> _WaitingEvents = new ConcurrentDictionary<string, string>(); //用于保存用户的待处理事件
-
+        private static Jurassic.ScriptEngine _JS;
         #region 私有方法 
         private long GetCreateTime(DateTime dt)
         {
@@ -130,10 +132,21 @@ namespace HH.TiYu.Cloud.WX
                         var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
                         var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
                         scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
-                        foreach (var score in scores)
+                        if (scores != null && scores.Count > 0)
                         {
-                            if (string.IsNullOrEmpty(score.Result)) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
-                            else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result, score.Rank));
+                            sb.AppendLine(string.Format("总分：{0}", CalTotal(s.Grade.Value, scores)));
+                            var jiafen = CalJiafen(scores);
+                            if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
+                            sb.AppendLine("----------------------");
+                            foreach (var score in scores)
+                            {
+                                if (!score.Result.HasValue) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                                else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
+                            }
+                        }
+                        else
+                        {
+                            sb.AppendLine("暂无成绩");
                         }
                         response = sb.ToString();
                     }
@@ -162,6 +175,103 @@ namespace HH.TiYu.Cloud.WX
                 CreateTime = GetCreateTime(DateTime.Now),
                 Content = response
             };
+        }
+
+        private decimal CalTotal(int grade, List<StudentScore> scores)
+        {
+            if (UserSettings.Current != null)
+            {
+                try
+                {
+                    var func = UserSettings.Current.GetTotalExpression(grade);
+                    if (!string.IsNullOrEmpty(func)) func = Extra(func, scores, "0");
+                    if (!string.IsNullOrEmpty(func))
+                    {
+                        if (_JS == null) _JS = new Jurassic.ScriptEngine();
+                        object temp = _JS.Evaluate(func);
+                        return Math.Round(Convert.ToDecimal(temp), 1);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LJH.GeneralLibrary.ExceptionHandling.ExceptionPolicy.HandleException(ex);
+                }
+
+            }
+            return 0;
+        }
+
+        private decimal? CalJiafen(List<StudentScore> scores)
+        {
+            var ret = scores.Sum(it => it.Jiafen.HasValue ? it.Jiafen.Value : 0);
+            if (ret == 0) return null;
+            return ret;
+        }
+
+        private string Extra(string expression, List<StudentScore> scores, string replaceBywhenUnmatch)
+        {
+            string ret = expression;
+            string pattern = @"\[.+?\]"; //用于匹配 [至少一个字符]
+            Regex rg = new Regex(pattern);
+            var matches = rg.Matches(expression, 0);
+            if (matches != null && matches.Count > 0)
+            {
+                foreach (var match in matches)
+                {
+                    string temp = match.ToString();
+                    string str;
+                    string ex = temp.TrimStart('[').TrimEnd(']');
+                    if (ex == "加分")
+                    {
+                        var j = CalJiafen(scores);
+                        if (j.HasValue) ret = ret.Replace(temp, j.Value.Trim().ToString());
+                        else if (replaceBywhenUnmatch != null) ret = ret.Replace(temp, replaceBywhenUnmatch);
+                    }
+                    else if (TryGetScore(ex, scores, out str)) ret = ret.Replace(temp, str);
+                    else if (replaceBywhenUnmatch != null) ret = ret.Replace(temp, replaceBywhenUnmatch);
+                }
+            }
+            return ret;
+        }
+
+        private bool TryGetScore(string expression, List<StudentScore> scores, out string ret)
+        {
+            string prefix = null;
+            ret = "0";
+            bool temp = false;
+            string strTemp = expression;
+
+            if (strTemp.IndexOf("@") == 0)
+            {
+                strTemp = strTemp.Substring(1);
+                prefix = "@";
+            }
+            if (strTemp.IndexOf("###") == 0)
+            {
+                strTemp = strTemp.Substring(3);
+                prefix = "###";
+            }
+            else if (strTemp.IndexOf("##") == 0) //##开头表示获取加分
+            {
+                strTemp = strTemp.Substring(2);
+                prefix = "##";
+            }
+            else if (strTemp.IndexOf('#') == 0)
+            {
+                strTemp = strTemp.Substring(1); //以#开头表示获取是成绩得分
+                prefix = "#";
+            }
+            var score = scores.FirstOrDefault(it => it.PhysicalItem.ToString() == strTemp || it.PhysicalName == strTemp);
+            if (score != null)
+            {
+                if (string.IsNullOrEmpty(prefix)) ret = score.Score;//获取测试成绩
+                else if (prefix == "#" && score.Result.HasValue) ret = score.Result.Value.Trim().ToString(); //获取成绩的得
+                else if (prefix == "##" && score.Jiafen.HasValue) ret = score.Jiafen.Value.Trim().ToString(); //加分
+                else if (prefix == "###") ret = score.Rank; //等级
+                else if (prefix == "@") ret = score.PhysicalName; //项目名称
+                temp = true;
+            }
+            return temp;
         }
         #endregion
 

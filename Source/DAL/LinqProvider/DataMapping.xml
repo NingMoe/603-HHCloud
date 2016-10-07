@@ -73,8 +73,8 @@
       <Column Name="PhysicalName" Member="PhysicalName"  DbType="nvarchar(50) NOT NULL" UpdateCheck="Never"/>
       <Column Name="Unit" Member="Unit"  DbType="nvarchar(50)" UpdateCheck="Never"/>
       <Column Name="Score" Member="Score" DbType="nvarchar(50)" UpdateCheck="Never"/>
-      <Column Name="Result" Member="Result" DbType="nvarchar(50)" UpdateCheck="Never"/>
-      <Column Name="Jiafen" Member="Jiafen" DbType="nvarchar(50)" UpdateCheck="Never"/>
+      <Column Name="Result" Member="Result" DbType="decimal(18,4)" UpdateCheck="Never"/>
+      <Column Name="Jiafen" Member="Jiafen" DbType="decimal(18,4)" UpdateCheck="Never"/>
       <Column Name="Rank" Member="Rank"  DbType="nvarchar(50)" UpdateCheck="Never"/>
       <Column Name="UpdateDate" Member="UpdateDate"  DbType="datetime not null" UpdateCheck="Never"/>
     </Type>

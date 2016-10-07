@@ -35,6 +35,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -50,6 +51,8 @@
     <Compile Include="RoleBLL.cs" />
     <Compile Include="StudentBLL.cs" />
     <Compile Include="StudentScoreBLL.cs" />
+    <Compile Include="SysParaSettingsBll.cs" />
+    <Compile Include="SystemParameterBLL.cs" />
     <Compile Include="WXBindingBLL.cs" />
   </ItemGroup>
   <ItemGroup>

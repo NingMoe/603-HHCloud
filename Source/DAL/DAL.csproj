@@ -55,6 +55,7 @@
     <Compile Include="LinqProvider\PublicWXProvider.cs" />
     <Compile Include="LinqProvider\RoleProvider.cs" />
     <Compile Include="LinqProvider\StudentProvider.cs" />
+    <Compile Include="LinqProvider\SysparameterProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderFactory.cs" />
     <Compile Include="LinqProvider\WXBindingProvider.cs" />

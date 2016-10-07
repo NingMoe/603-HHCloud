@@ -21,7 +21,7 @@ namespace HH.TiYu.Cloud.Model
         /// <summary>
         /// 获取或设置学生成绩的年级
         /// </summary>
-        public int  Grade { get; set; }
+        public int Grade { get; set; }
         /// <summary>
         /// 获取或设置考试项目
         /// </summary>
@@ -45,16 +45,15 @@ namespace HH.TiYu.Cloud.Model
         /// <summary>
         /// 获取或设置得分
         /// </summary>
-        public string Result { get; set; }
+        public decimal? Result { get; set; }
+        /// <summary>
+        /// 获取或设置加分
+        /// </summary>
+        public decimal? Jiafen { get; set; }
         /// <summary>
         /// 获取或设置等级
         /// </summary>
         public string Rank { get; set; }
-        /// <summary>
-        /// 获取或设置加分
-        /// </summary>
-        public string Jiafen { get; set; }
-
         public DateTime? UpdateDate { get; set; }
         #endregion
     }
