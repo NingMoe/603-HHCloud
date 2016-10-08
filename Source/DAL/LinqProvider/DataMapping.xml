@@ -44,6 +44,7 @@
         <Column Name="UserWX" Member="UserWX"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
         <Column Name="PublicWX" Member="PublicWX"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
         <Column Name="StudentID" Member="StudentID"  DbType="nvarchar(50) NOT NULL" CanBeNull="false" UpdateCheck="Never"/>
+        <Column Name="UpdateDate" Member="UpdateDate"  DbType="datetime null" UpdateCheck="Never"/>
       </Type>
   </Table>
   <Table Name="Student" Member="HH.TiYu.Cloud.Model.Student">
@@ -76,7 +77,6 @@
       <Column Name="Result" Member="Result" DbType="decimal(18,4)" UpdateCheck="Never"/>
       <Column Name="Jiafen" Member="Jiafen" DbType="decimal(18,4)" UpdateCheck="Never"/>
       <Column Name="Rank" Member="Rank"  DbType="nvarchar(50)" UpdateCheck="Never"/>
-      <Column Name="UpdateDate" Member="UpdateDate"  DbType="datetime not null" UpdateCheck="Never"/>
     </Type>
   </Table>
 </Database>

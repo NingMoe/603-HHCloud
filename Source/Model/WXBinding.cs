@@ -28,6 +28,8 @@ namespace HH.TiYu.Cloud.Model
         public string PublicWX { get; set; }
 
         public string StudentID { get; set; }
+
+        public DateTime? UpdateDate { get; set; }
         #endregion
     }
 }

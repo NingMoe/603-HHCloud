@@ -54,7 +54,6 @@ namespace HH.TiYu.Cloud.Model
         /// 获取或设置等级
         /// </summary>
         public string Rank { get; set; }
-        public DateTime? UpdateDate { get; set; }
         #endregion
     }
 }

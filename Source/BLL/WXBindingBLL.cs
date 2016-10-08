@@ -33,12 +33,12 @@ namespace HH.TiYu.Cloud.BLL
             var original = GetByID(id).QueryObject;
             if (original == null)
             {
-                WXBinding b = new WXBinding() { ID = id, UserWX = userWX, PublicWX = publicWX, StudentID = studentID };
+                WXBinding b = new WXBinding() { ID = id, UserWX = userWX, PublicWX = publicWX, StudentID = studentID, UpdateDate = DateTime.Now };
                 return ProviderFactory.Create<IProvider<WXBinding, string>>(RepoUri).Insert(b);
             }
             else
             {
-                WXBinding b = new WXBinding() { ID = id, UserWX = userWX, PublicWX = publicWX, StudentID = studentID };
+                WXBinding b = new WXBinding() { ID = id, UserWX = userWX, PublicWX = publicWX, StudentID = studentID, UpdateDate = DateTime.Now };
                 return ProviderFactory.Create<IProvider<WXBinding, string>>(RepoUri).Update(b, original);
             }
         }
