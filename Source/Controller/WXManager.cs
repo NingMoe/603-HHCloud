@@ -100,10 +100,11 @@ namespace HH.TiYu.Cloud.WX
         {
             get
             {
+                PublicWX ret = null;
                 _WXSLocker.AcquireReaderLock(int.MaxValue);
-                if (_WXS.ContainsKey(id)) return _WXS[id];
+                if (_WXS.ContainsKey(id)) ret = _WXS[id];
                 _WXSLocker.ReleaseReaderLock();
-                return null;
+                return ret;
             }
         }
         #endregion

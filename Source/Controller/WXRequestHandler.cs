@@ -307,6 +307,10 @@ namespace HH.TiYu.Cloud.WX
                         case "btn_查询成绩": return 查询成绩(publicWX, msg);
                     }
                 }
+                else if(msg.Event ==WXEventType.View ) //VIEW菜单事件
+                {
+                    var url = msg.EventKey;
+                }
             }
             else if (msg.MsgType == MsgType.Text)
             {

@@ -1,5 +1,10 @@
  {
      "button":[
+	 {
+		   "type":"view",
+		   "name":"官网",
+		   "url":"http://huaxiahuihai.com/"
+     },
      {	
           "type":"click",
           "name":"查询成绩",
@@ -20,13 +25,9 @@
             },
             {
                "type":"click",
-               "name":"查询学号",
+               "name":"我的学号",
                "key":"btn_查询学号"
             }]
-       }，
-	   {
-		   "type":"view",
-		   "name":"官网",
-		   "url":"http://huaxiahuihai.com/"
-       }]
+       }
+	   ]
 }

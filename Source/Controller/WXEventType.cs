@@ -13,5 +13,7 @@ namespace HH.TiYu.Cloud.WX
         public static string UnSubscribe = "unsubscribe";
 
         public static string Click = "CLICK";
+
+        public static string View = "VIEW";
     }
 }

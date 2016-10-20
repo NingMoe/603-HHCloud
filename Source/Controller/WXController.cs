@@ -33,6 +33,7 @@ namespace HH.TiYu.Cloud.WX
 
         public WXRequestMsg Get()
         {
+            var req = Request;
             return new WXRequestMsg()
             {
                 FromUserName = "abc",
