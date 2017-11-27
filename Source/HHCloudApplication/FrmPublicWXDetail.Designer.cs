@@ -281,6 +281,7 @@
             this.rdUser.TabIndex = 1;
             this.rdUser.Text = "用户名密码验证";
             this.rdUser.UseVisualStyleBackColor = true;
+            this.rdUser.CheckedChanged += new System.EventHandler(this.rdUser_CheckedChanged);
             // 
             // rdSystem
             // 
@@ -293,11 +294,12 @@
             this.rdSystem.TabStop = true;
             this.rdSystem.Text = "系统集成验证";
             this.rdSystem.UseVisualStyleBackColor = true;
+            this.rdSystem.CheckedChanged += new System.EventHandler(this.rdUser_CheckedChanged);
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("SimSun", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Font = new System.Drawing.Font("宋体", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.label11.ForeColor = System.Drawing.Color.Blue;
             this.label11.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label11.Location = new System.Drawing.Point(22, 312);

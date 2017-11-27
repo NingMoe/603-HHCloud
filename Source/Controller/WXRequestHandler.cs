@@ -129,12 +129,14 @@ namespace HH.TiYu.Cloud.WX
                         sb.AppendLine(string.Format("姓名：{0}", s.Name));
                         if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
                         if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
-                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
+                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID };
+                        //var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
                         var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
                         scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
                         if (scores != null && scores.Count > 0)
                         {
-                            sb.AppendLine(string.Format("总分：{0}", CalTotal(s.Grade.Value, scores)));
+                            var total = CalTotal(s.Grade.Value, scores);
+                            if(total >0) sb.AppendLine(string.Format("总分：{0}",total));
                             var jiafen = CalJiafen(scores);
                             if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
                             sb.AppendLine("----------------------");

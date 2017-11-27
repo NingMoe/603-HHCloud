@@ -164,5 +164,11 @@ namespace HH.TiYu.Cloud.WinApp
             return ret;
         }
         #endregion
+
+        private void rdUser_CheckedChanged(object sender, EventArgs e)
+        {
+            txtUserID.Enabled = rdUser.Checked;
+            txtPasswd.Enabled = rdUser.Checked;
+        }
     }
 }
