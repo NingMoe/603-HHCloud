@@ -1,0 +1,6 @@
+国美微公众号：
+账号：caa-sports
+密码：zgmsxytyb
+
+
+netsh http add urlacl url=http://wty.caa.edu.cn:80/hhcloud/wx/ user=Administrator 
