@@ -1,0 +1,71 @@
+{
+    "button": [
+        {
+            "name": "通知", 
+            "sub_button": [
+                {
+                    "type": "click", 
+                    "name": "新闻通知", 
+                    "key": "xwtz", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "规章制度", 
+                    "key": "gzzd", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "文件下载", 
+                    "key": "wjxz", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "联系我们", 
+                    "key": "lxwm", 
+                    "sub_button": [ ]
+                }
+            ]
+        }, 
+        {
+            "type": "click", 
+            "name": "查询成绩", 
+            "key": "btn_查询成绩"
+        }, 
+        {
+            "name": "服务", 
+            "sub_button": [
+                {
+                    "type": "click", 
+                    "name": "绑定学号", 
+                    "key": "btn_绑定学号"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "取消绑定", 
+                    "key": "btn_取消绑定"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "预约", 
+                    "key": "btn_预约", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "请假", 
+                    "key": "btn_请假", 
+                    "sub_button": [ ]
+                }, 
+                {
+                    "type": "click", 
+                    "name": "免测", 
+                    "key": "btn_免测", 
+                    "sub_button": [ ]
+                }
+            ]
+        }
+    ]
+}

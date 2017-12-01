@@ -1,0 +1,12 @@
+国美微公众号：
+账号：caa-sports
+密码：zgmsxytyb
+
+国美微云主机账号：
+IP：210.33.124.122 
+账号：administrator
+密码：caaadmin@123 加两个空格
+域名：wty.caa.edu.cn
+
+
+netsh http add urlacl url=http://wty.caa.edu.cn:80/hhcloud/wx/ user=Administrator 
