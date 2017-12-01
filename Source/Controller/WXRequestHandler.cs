@@ -16,7 +16,10 @@ namespace HH.TiYu.Cloud.WX
     public class WXRequestHandler
     {
         #region 构造函数
-
+        public WXRequestHandler(System.Net.Http.HttpRequestMessage requst)
+        {
+            _Request = requst;
+        }
         #endregion
 
         //private string _DefaultResponse = "你可以进行如下操作:\n" +
@@ -32,6 +35,7 @@ namespace HH.TiYu.Cloud.WX
         private string[] _queryScore = new string[] { "??", "？？" };
         private static ConcurrentDictionary<string, string> _WaitingEvents = new ConcurrentDictionary<string, string>(); //用于保存用户的待处理事件
         private static Jurassic.ScriptEngine _JS;
+        private System.Net.Http.HttpRequestMessage _Request;
         #region 私有方法 
         private long GetCreateTime(DateTime dt)
         {
@@ -136,7 +140,7 @@ namespace HH.TiYu.Cloud.WX
                         if (scores != null && scores.Count > 0)
                         {
                             var total = CalTotal(s.Grade.Value, scores);
-                            if(total >0) sb.AppendLine(string.Format("总分：{0}",total));
+                            if (total > 0) sb.AppendLine(string.Format("总分：{0}", total));
                             var jiafen = CalJiafen(scores);
                             if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
                             sb.AppendLine("----------------------");
@@ -151,6 +155,40 @@ namespace HH.TiYu.Cloud.WX
                             sb.AppendLine("暂无成绩");
                         }
                         response = sb.ToString();
+                    }
+                }
+            }
+            return new WXTextResponseMsg()
+            {
+                ToUserName = msg.FromUserName,
+                FromUserName = msg.ToUserName,
+                CreateTime = GetCreateTime(DateTime.Now),
+                Content = response
+            };
+        }
+
+        private WXResponseMsgBase 查询二维码(string publicWX, WXRequestMsg msg)
+        {
+            string response = _DefaultResponse;
+            var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，请先绑定学号";
+            else
+            {
+                var wx = WXManager.Current[publicWX];
+                if (wx == null) response = "系统没有提供此微信公众号服务";
+                else
+                {
+                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
+                    if (s == null) response = "没有找到学生信息";
+                    else
+                    {
+                        return new WXTextResponseMsg()
+                        {
+                            ToUserName = msg.FromUserName,
+                            FromUserName = msg.ToUserName,
+                            CreateTime = GetCreateTime(DateTime.Now),
+                            Content = string.Format(@"请点击 http://{0}/hhcloud/qr/{1}/{2}/", _Request.RequestUri.Host, publicWX, s.ID),
+                        };
                     }
                 }
             }
@@ -307,9 +345,10 @@ namespace HH.TiYu.Cloud.WX
                             }
                         case "btn_查询学号": return 查询绑定(publicWX, msg);
                         case "btn_查询成绩": return 查询成绩(publicWX, msg);
+                        case "btn_二维码": return 查询二维码(publicWX, msg);
                     }
                 }
-                else if(msg.Event ==WXEventType.View ) //VIEW菜单事件
+                else if (msg.Event == WXEventType.View) //VIEW菜单事件
                 {
                     var url = msg.EventKey;
                 }
@@ -322,6 +361,10 @@ namespace HH.TiYu.Cloud.WX
                     _WaitingEvents.TryRemove(msg.FromUserName, out eventKey);
                     if (eventKey == "btn_绑定学号") return 绑定学号(publicWX, msg);
                     else if (eventKey == "btn_取消绑定" && msg.Content == "是") return 取消绑定(publicWX, msg);
+                }
+                else if (msg.Content == "@qr")
+                {
+                    return 查询二维码(publicWX, msg);
                 }
             }
             return new WXTextResponseMsg()

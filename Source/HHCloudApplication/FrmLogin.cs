@@ -13,6 +13,7 @@ using HH.TiYu.Cloud.Model;
 using HH.TiYu.Cloud.Model.Security;
 using HH.TiYu.Cloud.BLL;
 using LJH.GeneralLibrary.SQLHelper;
+using LJH.GeneralLibrary;
 
 namespace HH.TiYu.Cloud.WinApp
 {
@@ -162,6 +163,16 @@ namespace HH.TiYu.Cloud.WinApp
                 catch
                 {
                 }
+            }
+
+            if (!string.IsNullOrEmpty(CommandLineArgs.UserName))
+            {
+                this.txtLogName.Text = CommandLineArgs.UserName;
+                this.txtPassword.Text = CommandLineArgs.Password;
+                CommandLineArgs.UserName = string.Empty;
+                CommandLineArgs.Password = string.Empty;
+                this.btnLogin_Click(this.btnLogin, EventArgs.Empty);
+                return;
             }
 
             this.chkRememberLogid.Checked = AppSettings.Current.RememberLogID;

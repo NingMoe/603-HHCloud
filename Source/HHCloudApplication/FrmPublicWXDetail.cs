@@ -110,7 +110,7 @@ namespace HH.TiYu.Cloud.WinApp
         {
             PublicWX wx = UpdatingItem as PublicWX;
             txtID.Text = wx.ID;
-            txtID.Enabled = false;
+            txtID.ReadOnly = true;
             txtName.Text = wx.Name;
             txtAppID.Text = wx.AppID;
             txtAppSecret.Text = wx.AppSecret;
