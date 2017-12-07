@@ -131,28 +131,44 @@ namespace HH.TiYu.Cloud.WX
                         StringBuilder sb = new StringBuilder();
                         sb.AppendLine(string.Format("学号：{0}", s.ID));
                         sb.AppendLine(string.Format("姓名：{0}", s.Name));
+                        sb.AppendLine(string.Format("性别：{0}", s.Sex == 1 ? "男" : "女"));
                         if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
                         if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
-                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID };
-                        //var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
+                        //var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID };
+                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
                         var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
                         scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
-                        if (scores != null && scores.Count > 0)
+                        var pis = UserSettings.Current.CreateDefaultFormula(s.Grade.Value, s.Sex);
+                        if (pis != null && pis.Length > 0)
                         {
-                            var total = CalTotal(s.Grade.Value, scores);
-                            if (total > 0) sb.AppendLine(string.Format("总分：{0}", total));
-                            var jiafen = CalJiafen(scores);
-                            if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
-                            sb.AppendLine("----------------------");
-                            foreach (var score in scores)
+                            if (scores != null && scores.Count > 0)
                             {
-                                if (!score.Result.HasValue) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
-                                else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
+                                var total = CalTotal(s.Grade.Value, scores);
+                                if (total > 0) sb.AppendLine(string.Format("总分：{0}", total));
+                                var jiafen = CalJiafen(scores);
+                                if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
+                                sb.AppendLine("----------------------");
+                                foreach (var score in scores)
+                                {
+                                    if (pis.Contains(score.PhysicalItem))
+                                    {
+                                        if (!score.Result.HasValue) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                                        else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
+                                    }
+                                }
                             }
-                        }
-                        else
-                        {
-                            sb.AppendLine("暂无成绩");
+                            if (pis.Any(it => scores == null || !scores.Exists(sc => sc.PhysicalItem == it)))
+                            {
+                                sb.AppendLine("");
+                                sb.AppendLine("------------------未测试科目");
+                                foreach (var pi in pis)
+                                {
+                                    if (scores == null || !scores.Exists(it => it.PhysicalItem == pi))
+                                    {
+                                        sb.AppendLine(UserSettings.Current.GetPhysicalName(pi));
+                                    }
+                                }
+                            }
                         }
                         response = sb.ToString();
                     }
@@ -187,7 +203,7 @@ namespace HH.TiYu.Cloud.WX
                             ToUserName = msg.FromUserName,
                             FromUserName = msg.ToUserName,
                             CreateTime = GetCreateTime(DateTime.Now),
-                            Content = string.Format(@"请点击 http://{0}/hhcloud/qr/{1}/{2}/", _Request.RequestUri.Host, publicWX, s.ID),
+                            Content = string.Format(@"点击打开二维码 http://{0}/hhcloud/qr/{1}/{2}/", _Request.RequestUri.Host, publicWX, s.ID),
                         };
                     }
                 }
