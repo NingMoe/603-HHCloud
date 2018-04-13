@@ -1,33 +1,44 @@
- {
-     "button":[
-	 {
-		   "type":"view",
-		   "name":"官网",
-		   "url":"http://huaxiahuihai.com/"
-     },
-     {	
-          "type":"click",
-          "name":"查询成绩",
-          "key":"btn_查询成绩"
-      },
-      {
-           "name":"服务",
-           "sub_button":[
-           {	
-               "type":"click",
-               "name":"绑定学号",
-               "key":"btn_绑定学号"
-            },
-            {
-               "type":"click",
-               "name":"取消绑定",
-               "key":"btn_取消绑定"
-            },
-            {
-               "type":"click",
-               "name":"我的学号",
-               "key":"btn_查询学号"
-            }]
-       }
-	   ]
+﻿{
+    "button": [
+        {
+            "type": "view", 
+            "name": "官网", 
+            "url": "http://huaxiahuihai.com/"
+        }, 
+        {
+            "type": "click", 
+            "name": "查询成绩", 
+            "key": "btn_查询成绩"
+        }, 
+        {
+            "name": "服务", 
+            "sub_button": [
+                {
+                    "type": "click", 
+                    "name": "绑定学号", 
+                    "key": "btn_绑定学号"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "取消绑定", 
+                    "key": "btn_取消绑定"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "我的学号", 
+                    "key": "btn_查询学号"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "二维码", 
+                    "key": "btn_二维码"
+                }, 
+                {
+                    "type": "click", 
+                    "name": "预约", 
+                    "key": "btn_预约"
+                }
+            ]
+        }
+    ]
 }
