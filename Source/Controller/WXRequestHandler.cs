@@ -152,14 +152,13 @@ namespace HH.TiYu.Cloud.WX
                                 {
                                     if (pis.Contains(score.PhysicalItem))
                                     {
-                                        if (!score.Result.HasValue) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                                        if (!score.Result.HasValue || score.PhysicalItem == 1 || score.PhysicalItem == 2) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
                                         else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
                                     }
                                 }
                             }
                             if (pis.Any(it => scores == null || !scores.Exists(sc => sc.PhysicalItem == it)))
                             {
-                                sb.AppendLine("");
                                 sb.AppendLine("------------------未测试科目");
                                 foreach (var pi in pis)
                                 {
