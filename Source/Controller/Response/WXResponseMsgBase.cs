@@ -16,7 +16,7 @@ namespace HH.TiYu.Cloud.WX.Response
 
         public string FromUserName { get; set; }
 
-        public long CreateTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         public string MsgType { get; set; }
         #endregion
