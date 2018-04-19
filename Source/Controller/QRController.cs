@@ -23,8 +23,9 @@ namespace HH.TiYu.Cloud.WX
             if (s == null) return Request.CreateResponse(HttpStatusCode.NotFound);
             QrEncoder qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
             QrCode qrCode = new QrCode();
-            var temp = string.Format("{0}{1}", !string.IsNullOrEmpty(s.IDNumber) ? s.IDNumber : s.ID.PadLeft(18, ' '), s.Name);
-            var base64 = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(temp));
+            //var temp = string.Format("{0}{1}", !string.IsNullOrEmpty(s.IDNumber) ? s.IDNumber : s.ID.PadLeft(18, ' '), s.Name);
+            //var base64 = Convert.ToBase64String(System.Text.ASCIIEncoding.UTF8.GetBytes(temp));
+            var base64 = s.ID;
             qrEncoder.TryEncode(base64, out qrCode);
 
             var renderer = new DrawingBrushRenderer(new FixedModuleSize(5, QuietZoneModules.Two));
