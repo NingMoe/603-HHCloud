@@ -73,11 +73,16 @@
     <Compile Include="WXController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WXClient.cs" />
+    <Compile Include="WXHelper\Cryptography.cs" />
+    <Compile Include="WXHelper\Sample.cs" />
+    <Compile Include="WXHelper\WXBizMsgCrypt.cs" />
     <Compile Include="WXManager.cs" />
     <Compile Include="WXEventType.cs" />
+    <Compile Include="WXQYHController.cs" />
     <Compile Include="WXRequestHandler.cs" />
     <Compile Include="WXRequestMsg.cs" />
     <Compile Include="Response\WXResponseMsgBase.cs" />
+    <Compile Include="中国美院数据接口Client.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

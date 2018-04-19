@@ -37,199 +37,145 @@ namespace HH.TiYu.Cloud.WX
         private static Jurassic.ScriptEngine _JS;
         private System.Net.Http.HttpRequestMessage _Request;
         #region 私有方法 
-        private long GetCreateTime(DateTime dt)
-        {
-            return (long)(new TimeSpan(dt.Ticks - new DateTime(1970, 1, 1, 8, 0, 0).Ticks).TotalSeconds);
-        }
 
         private WXResponseMsgBase 绑定学号(string publicWX, WXRequestMsg msg)
         {
-            string response = "请输入你要绑定的学号";
             if (!string.IsNullOrEmpty(msg.Content))
             {
                 string sid = null;
                 if (msg.Content.IndexOf(_regStudentID) == 0 && msg.Content.Length > _regStudentID.Length) sid = msg.Content.Substring(_regStudentID.Length); //
                 else sid = msg.Content; //通过菜单项然后输入学号
-                var ret = new WXBindingBLL(AppSettings.Current.ConnStr).Register(msg.FromUserName, msg.ToUserName, sid);
-                if (ret.Result == ResultCode.Successful) response = string.Format("你已经成功绑定学号 {0}", sid);
-                else response = ret.Message;
+                var ret = new WXBindingBLL(WXManager.Current[publicWX].DBConnect).Register(msg.FromUserName, msg.ToUserName, sid);
+                if (ret.Result != ResultCode.Successful) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, ret.Message);
+                return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, string.Format("你已经成功绑定学号 {0}", sid));
             }
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "请输入你要绑定的学号");
         }
 
         private WXResponseMsgBase 取消绑定(string publicWX, WXRequestMsg msg)
         {
             string response = _DefaultResponse;
-            var ret = new WXBindingBLL(AppSettings.Current.ConnStr).UnRegister(msg.FromUserName, msg.ToUserName);
+            var ret = new WXBindingBLL(WXManager.Current[publicWX].DBConnect).UnRegister(msg.FromUserName, msg.ToUserName);
             if (ret.Result == ResultCode.Successful) response = "你已经成功取消学号绑定";
             else response = ret.Message;
-
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
         private WXResponseMsgBase 查询绑定(string publicWX, WXRequestMsg msg)
         {
             string response = _DefaultResponse;
-
-            var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            var sid = new WXBindingBLL(WXManager.Current[publicWX].DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
             if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号。";
             else
             {
-                var wx = WXManager.Current[publicWX];
-                if (wx == null) response = "系统没有提供此微信公众号服务";
+                var s = new StudentBLL(WXManager.Current[publicWX].DBConnect).GetByID(sid).QueryObject;
+                if (s == null) response = string.Format("学号：{0}\n{1}", sid, "没有找到学生信息");
                 else
                 {
-                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
-                    if (s == null) response = string.Format("学号：{0}\n{1}", sid, "没有找到学生信息");
-                    else
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        sb.AppendLine(string.Format("学号：{0}", s.ID));
-                        sb.AppendLine(string.Format("姓名：{0}", s.Name));
-                        if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
-                        if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
-                        response = sb.ToString();
-                    }
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine(string.Format("学号：{0}", s.ID));
+                    sb.AppendLine(string.Format("姓名：{0}", s.Name));
+                    if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
+                    if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
+                    response = sb.ToString();
                 }
             }
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
         private WXResponseMsgBase 查询成绩(string publicWX, WXRequestMsg msg)
         {
             string response = _DefaultResponse;
-            var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
-            if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，请先绑定学号";
-            else
+            var wx = WXManager.Current[publicWX];
+            var sid = new WXBindingBLL(wx.DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            if (string.IsNullOrEmpty(sid)) new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "您还没有绑定学号，请先绑定学号");
+            var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
+            if (s == null) new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "没有找到学生信息");
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(string.Format("学号：{0}", s.ID));
+            sb.AppendLine(string.Format("姓名：{0}", s.Name));
+            sb.AppendLine(string.Format("性别：{0}", s.Sex == 1 ? "男" : "女"));
+            if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
+            if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
+            var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
+            var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
+            scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
+            var pis = UserSettings.Current.CreateDefaultFormula(s.Grade.Value, s.Sex);
+            if (pis != null && pis.Length > 0)
             {
-                var wx = WXManager.Current[publicWX];
-                if (wx == null) response = "系统没有提供此微信公众号服务";
-                else
+                if (scores != null && scores.Count > 0)
                 {
-                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
-                    if (s == null) response = "没有找到学生信息";
-                    else
+                    var total = CalTotal(s.Grade.Value, scores);
+                    if (total > 0) sb.AppendLine(string.Format("总分：{0}", total));
+                    var jiafen = CalJiafen(scores);
+                    if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
+                    sb.AppendLine("----------------------");
+                    foreach (var score in scores)
                     {
-                        StringBuilder sb = new StringBuilder();
-                        sb.AppendLine(string.Format("学号：{0}", s.ID));
-                        sb.AppendLine(string.Format("姓名：{0}", s.Name));
-                        sb.AppendLine(string.Format("性别：{0}", s.Sex == 1 ? "男" : "女"));
-                        if (s.Grade.HasValue) sb.AppendLine(string.Format("年级：{0}", GradeHelper.Instance.GetName(s.Grade.Value)));
-                        if (!string.IsNullOrEmpty(s.ClassName)) sb.AppendLine(string.Format("班级：{0}", s.ClassName));
-                        //var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID };
-                        var con = new StudentScoreSearchCondition() { Grade = s.Grade, StudentID = s.ID, ProjectID = "TizhiCheshi" };
-                        var scores = new StudentScoreBLL(wx.DBConnect).GetItems(con).QueryObjects;
-                        scores = (from it in scores orderby it.PhysicalItem ascending select it).ToList();
-                        var pis = UserSettings.Current.CreateDefaultFormula(s.Grade.Value, s.Sex);
-                        if (pis != null && pis.Length > 0)
+                        if (pis.Contains(score.PhysicalItem))
                         {
-                            if (scores != null && scores.Count > 0)
-                            {
-                                var total = CalTotal(s.Grade.Value, scores);
-                                if (total > 0) sb.AppendLine(string.Format("总分：{0}", total));
-                                var jiafen = CalJiafen(scores);
-                                if (jiafen.HasValue) sb.AppendLine(string.Format("加分：{0}", jiafen.Value.Trim()));
-                                sb.AppendLine("----------------------");
-                                foreach (var score in scores)
-                                {
-                                    if (pis.Contains(score.PhysicalItem))
-                                    {
-                                        if (!score.Result.HasValue || score.PhysicalItem == 1 || score.PhysicalItem == 2) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
-                                        else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
-                                    }
-                                }
-                            }
-                            if (pis.Any(it => scores == null || !scores.Exists(sc => sc.PhysicalItem == it)))
-                            {
-                                sb.AppendLine("------------------未测试科目");
-                                foreach (var pi in pis)
-                                {
-                                    if (scores == null || !scores.Exists(it => it.PhysicalItem == pi))
-                                    {
-                                        sb.AppendLine(UserSettings.Current.GetPhysicalName(pi));
-                                    }
-                                }
-                            }
+                            if (!score.Result.HasValue || score.PhysicalItem == 1 || score.PhysicalItem == 2) sb.AppendLine(string.Format("{0}：{1}", score.PhysicalName, score.Score));
+                            else sb.AppendLine(string.Format("{0}：{1}_{2}分_{3}", score.PhysicalName, score.Score, score.Result.Value.Trim(), score.Rank));
                         }
-                        response = sb.ToString();
                     }
                 }
+                if (pis.Any(it => scores == null || !scores.Exists(sc => sc.PhysicalItem == it)))
+                {
+                    sb.AppendLine("------------------未测试科目");
+                    foreach (var pi in pis)
+                    {
+                        if (scores == null || !scores.Exists(it => it.PhysicalItem == pi))
+                        {
+                            sb.AppendLine(UserSettings.Current.GetPhysicalName(pi));
+                        }
+                    }
+                }
+                response = sb.ToString();
             }
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
         private WXResponseMsgBase 查询二维码(string publicWX, WXRequestMsg msg)
         {
             string response = _DefaultResponse;
-            var sid = new WXBindingBLL(AppSettings.Current.ConnStr).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
-            if (string.IsNullOrEmpty(sid)) response = "您还没有绑定学号，请先绑定学号";
-            else
+            var wx = WXManager.Current[publicWX];
+            var sid = new WXBindingBLL(wx.DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            if (string.IsNullOrEmpty(sid)) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "您还没有绑定学号，请先绑定学号");
+            var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
+            if (s == null) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "没有找到学生信息");
+            response = string.Format(@"点击打开二维码 http://{0}/hhcloud/qr/{1}/{2}/", _Request.RequestUri.Host, publicWX, s.ID);
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
+        }
+
+        private WXResponseMsgBase 预约测试(string publicWX, WXRequestMsg msg)
+        {
+            string response = "请输入你预约的日期，格式为年月日共8位 如：20180101";
+            var wx = WXManager.Current[publicWX];
+            var sid = new WXBindingBLL(wx.DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            if (string.IsNullOrEmpty(sid)) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "您还没有绑定学号，请先绑定学号");
+            if (!string.IsNullOrEmpty(msg.Content))
             {
-                var wx = WXManager.Current[publicWX];
-                if (wx == null) response = "系统没有提供此微信公众号服务";
+                DateTime dt;
+                if (!string.IsNullOrEmpty(msg.Content) && DateTime.TryParseExact(msg.Content, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out dt))
+                {
+                    var client = new 中国美院接口Client("http://120.78.230.233:8081");
+                    var ret = client.预约(sid, dt);
+                    if (ret.Code == 0) response = "预约成功！";
+                    else response = "预约失败：" + ret.Description;
+                }
                 else
                 {
-                    var s = new StudentBLL(wx.DBConnect).GetByID(sid).QueryObject;
-                    if (s == null) response = "没有找到学生信息";
-                    else
-                    {
-                        return new WXTextResponseMsg()
-                        {
-                            ToUserName = msg.FromUserName,
-                            FromUserName = msg.ToUserName,
-                            CreateTime = GetCreateTime(DateTime.Now),
-                            Content = string.Format(@"点击打开二维码 http://{0}/hhcloud/qr/{1}/{2}/", _Request.RequestUri.Host, publicWX, s.ID),
-                        };
-                    }
+                    response = "输入的日期格式不正确，请重新输入";
                 }
             }
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
         private WXResponseMsgBase HandleSubscribeMsg(WXRequestMsg msg)
         {
             string response = "欢迎关注我们！ \n" +
                               "相信汇海，相信专业！\n";
-            //"\n" +
-            //"接下来 \n" +
-            //_DefaultResponse;
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = response
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
         private decimal CalTotal(int grade, List<StudentScore> scores)
@@ -333,12 +279,14 @@ namespace HH.TiYu.Cloud.WX
         #region 公共方法 
         public WXResponseMsgBase HandleMsg(string publicWX, WXRequestMsg msg)
         {
+            var wx = WXManager.Current[publicWX];
+            if (wx == null) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "系统没有提供此微信公众号服务");
             if (msg.MsgType == MsgType.Event)
             {
                 string temp = null;
                 _WaitingEvents.TryRemove(msg.FromUserName, out temp);  //如果是事件
                 if (msg.Event == WXEventType.Subscribe) return HandleSubscribeMsg(msg);
-                else if (msg.Event == WXEventType.Click)
+                else if (msg.Event.ToUpper() == WXEventType.Click)
                 {
                     switch (msg.EventKey)
                     {
@@ -350,13 +298,12 @@ namespace HH.TiYu.Cloud.WX
                         case "btn_取消绑定":
                             {
                                 _WaitingEvents[msg.FromUserName] = msg.EventKey;
-                                return new WXTextResponseMsg()
-                                {
-                                    ToUserName = msg.FromUserName,
-                                    FromUserName = msg.ToUserName,
-                                    CreateTime = GetCreateTime(DateTime.Now),
-                                    Content = "是否取消绑定？确定取消请回复 \"是\""
-                                };
+                                return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "是否取消绑定？确定取消请回复 \"是\"");
+                            }
+                        case "btn_预约":
+                            {
+                                _WaitingEvents[msg.FromUserName] = msg.EventKey;
+                                return 预约测试(publicWX, msg);
                             }
                         case "btn_查询学号": return 查询绑定(publicWX, msg);
                         case "btn_查询成绩": return 查询成绩(publicWX, msg);
@@ -376,19 +323,14 @@ namespace HH.TiYu.Cloud.WX
                     _WaitingEvents.TryRemove(msg.FromUserName, out eventKey);
                     if (eventKey == "btn_绑定学号") return 绑定学号(publicWX, msg);
                     else if (eventKey == "btn_取消绑定" && msg.Content == "是") return 取消绑定(publicWX, msg);
+                    else if (eventKey == "btn_预约") return 预约测试(publicWX, msg);
                 }
                 else if (msg.Content == "@qr")
                 {
                     return 查询二维码(publicWX, msg);
                 }
             }
-            return new WXTextResponseMsg()
-            {
-                ToUserName = msg.FromUserName,
-                FromUserName = msg.ToUserName,
-                CreateTime = GetCreateTime(DateTime.Now),
-                Content = _DefaultResponse
-            };
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, _DefaultResponse);
         }
         #endregion
     }
