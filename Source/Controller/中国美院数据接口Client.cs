@@ -109,6 +109,43 @@ namespace HH.TiYu.Cloud.WX
                 return new 中国美院接口获取可预约项目Response { Code = -1, Description = ex.Message };
             }
         }
+
+        public 中国美院接口获取预约信息Response 获取预约信息(string sid)
+        {
+            string token = null;
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string url = BaseUrl.TrimEnd('/') + "/api/v1/POST/student/token";
+                    client.Headers.Add("accept", "application/json");
+                    client.Headers.Add("Content-Type", "application/json");
+                    var content = JsonConvert.SerializeObject(new { appkey = _AppKEY, role = "student", username = sid, password = "123456", });
+                    var retBytes = client.UploadData(url, "POST", ASCIIEncoding.UTF8.GetBytes(content));
+                    var ret = JsonConvert.DeserializeObject<中国美院接口Response>(ASCIIEncoding.UTF8.GetString(retBytes));
+                    if (ret.Code == 0) token = ret.Description;
+                    else return new 中国美院接口获取预约信息Response() { Code = -1, Description = "登录失败" };
+                }
+
+                using (WebClient client = new WebClient())
+                {
+                    string url = BaseUrl.TrimEnd('/') + string.Format("/api/v1/auth/GET/studentreservation/student/true/testreservation/ ");
+                    //string url = BaseUrl.TrimEnd('/') + string.Format("/api/v1/auth/GET/studentreservation/student/0/");
+                    client.Headers.Add("accept", "application/json");
+                    client.Headers.Add("Authorization", string.Format("{0} {1}", "Bearer", token));
+                    var retBytes = client.DownloadData(url);
+                    var ret = JsonConvert.DeserializeObject<中国美院接口获取预约信息Response>(ASCIIEncoding.UTF8.GetString(retBytes));
+                    return ret;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                LJH.GeneralLibrary.ExceptionHandling.ExceptionPolicy.HandleException(ex);
+                return new 中国美院接口获取预约信息Response() { Code = -1, Description = ex.Message };
+            }
+        }
         #endregion
     }
 
@@ -136,10 +173,33 @@ namespace HH.TiYu.Cloud.WX
         public string 项目名称 { get; set; }
     }
 
-    //    0169
-    //{"code":"0","description":"WithAuthenticationTokenRequestSchemeOrder0","entity":[{"physicalitem":0,"physicalitemname":"全部","teacher":100,"
-    //teachername":"陈某","teacheraccount":"chen","testscheme":7,"testschemename":"全年测试项目","startdate":"2018-04-13 08:42:00",
-    //    "enddate":"2019-01-05 08:42:00","maxcount":10000,"address":"广州","memo":"测试"}]}
-    ////0
+    public class 中国美院接口获取预约信息Response : 中国美院接口Response
+    {
+        [JsonProperty(PropertyName = "entity")]
+        public 中国美院接口预约信息[] 预约信息 { get; set; }
+    }
 
+    public class 中国美院接口预约信息
+    {
+        [JsonProperty(PropertyName = "idnumber")]
+        public string 学号 { get; set; }
+
+        [JsonProperty(PropertyName = "studentname")]
+        public string 姓名 { get; set; }
+
+        [JsonProperty(PropertyName = "physicalitemname")]
+        public string 测试科目 { get; set; }
+
+        [JsonProperty(PropertyName = "teachername")]
+        public string 测试老师 { get; set; }
+
+        [JsonProperty(PropertyName = "testschemename")]
+        public string 项目名称 { get; set; }
+
+        [JsonProperty(PropertyName = "reservedate")]
+        public DateTime 预约日期 { get; set; }
+
+        [JsonProperty(PropertyName = "testdate")]
+        public DateTime 测试日期 { get; set; }
+    }
 }

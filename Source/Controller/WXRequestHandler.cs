@@ -199,6 +199,34 @@ namespace HH.TiYu.Cloud.WX
             return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
 
+        private WXResponseMsgBase 查看预约(string publicWX, WXRequestMsg msg)
+        {
+            string response = string.Empty;
+            var wx = WXManager.Current[publicWX];
+            var sid = new WXBindingBLL(wx.DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
+            if (string.IsNullOrEmpty(sid)) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "您还没有绑定学号，请先绑定学号");
+
+            var client = new 中国美院接口Client("http://120.78.230.233:8081");
+            var ret = client.获取预约信息(sid);
+            if (ret.Code == 0 && ret.预约信息 != null && ret.预约信息.Length > 0)
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("你已经预约如下这些项目：");
+                sb.AppendLine("----------------------------------------");
+                foreach (var item in ret.预约信息)
+                {
+                    sb.AppendLine(string.Format("{0} 日期{1}", item.项目名称, item.测试日期.ToString("yyyy-MM-dd")));
+                }
+                sb.AppendLine("----------------------------------------");
+                response = sb.ToString();
+            }
+            else
+            {
+                response = "你没有可预约项目";
+            }
+            return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
+        }
+
         private WXResponseMsgBase HandleSubscribeMsg(WXRequestMsg msg)
         {
             string response = "欢迎关注我们！ \n" +
@@ -336,6 +364,7 @@ namespace HH.TiYu.Cloud.WX
                         case "btn_查询学号": return 查询绑定(publicWX, msg);
                         case "btn_查询成绩": return 查询成绩(publicWX, msg);
                         case "btn_二维码": return 查询二维码(publicWX, msg);
+                        case "btn_查看预约":  return 查看预约(publicWX, msg);
                     }
                 }
                 else if (msg.Event == WXEventType.View) //VIEW菜单事件
