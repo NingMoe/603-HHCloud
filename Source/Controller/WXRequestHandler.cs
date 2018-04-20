@@ -149,24 +149,52 @@ namespace HH.TiYu.Cloud.WX
 
         private WXResponseMsgBase 预约测试(string publicWX, WXRequestMsg msg)
         {
-            string response = "请输入你预约的日期，格式为年月日共8位 如：20180101";
+            string response = string.Empty;
             var wx = WXManager.Current[publicWX];
             var sid = new WXBindingBLL(wx.DBConnect).GetBindingStudentID(msg.FromUserName, msg.ToUserName);
             if (string.IsNullOrEmpty(sid)) return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, "您还没有绑定学号，请先绑定学号");
             if (!string.IsNullOrEmpty(msg.Content))
             {
                 DateTime dt;
-                if (!string.IsNullOrEmpty(msg.Content) && DateTime.TryParseExact(msg.Content, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out dt))
+                if (msg.Content.Length >= 10)
                 {
-                    var client = new 中国美院接口Client("http://120.78.230.233:8081");
-                    var ret = client.预约(sid, dt);
-                    if (ret.Code == 0) response = "预约成功！";
-                    else response = "预约失败：" + ret.Description;
+                    var dttemp = msg.Content.Substring(0, 8);
+                    if (DateTime.TryParseExact(dttemp, "yyyyMMdd", null, System.Globalization.DateTimeStyles.None, out dt))
+                    {
+                        var sheme = msg.Content.Substring(9);
+                        var client = new 中国美院接口Client("http://120.78.230.233:8081");
+                        var ret = client.预约(sid, dt, sheme);
+                        if (ret.Code == 0) response = "预约成功！";
+                        else response = "预约失败";
+                    }
                 }
                 else
                 {
                     response = "输入的日期格式不正确，请重新输入";
                 }
+            }
+            else
+            {
+                var client = new 中国美院接口Client("http://120.78.230.233:8081");
+                var ret = client.获取可预约项目(sid);
+                if (ret.Code == 0 && ret.Scores != null && ret.Scores.Length > 0)
+                {
+                    var sb = new StringBuilder();
+                    sb.AppendLine("你可以预约如下这些项目：");
+                    sb.AppendLine("----------------------------------------");
+                    foreach (var item in ret.Scores)
+                    {
+                        sb.AppendLine(string.Format("{0} 编号{1}", item.项目名称, item.编号));
+                    }
+                    sb.AppendLine("----------------------------------------");
+                    sb.AppendLine("预约请发送 年月日+项目编号 如：20180101+7");
+                    response = sb.ToString();
+                }
+                else
+                {
+                    response = "你没有可预约项目";
+                }
+
             }
             return new WXTextResponseMsg(msg.FromUserName, msg.ToUserName, DateTime.Now, response);
         }
